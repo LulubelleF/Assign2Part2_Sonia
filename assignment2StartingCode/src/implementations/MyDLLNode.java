@@ -7,42 +7,78 @@ package implementations;
  */
 public class MyDLLNode<E> {
 
-	private E data;
-	private MyDLLNode<E> prev;
-	private MyDLLNode<E> next;
+    /** The data stored in this node */
+    private E data;
 
-	/**
-	 * Constructor to create a node with given data.
-	 *
-	 * @param data the data to store
-	 */
-	public MyDLLNode(E data) {
-		this.data = data;
-		this.prev = null;
-		this.next = null;
-	}
+    /** Reference to the previous node in the list */
+    private MyDLLNode<E> prev;
 
-	public E getData() {
-		return data;
-	}
+    /** Reference to the next node in the list */
+    private MyDLLNode<E> next;
 
-	public void setData(E data) {
-		this.data = data;
-	}
+    /**
+     * Constructs a new node with the specified data.
+     * The previous and next references are initialized to null.
+     *
+     * @param data the data to store in the node
+     */
+    public MyDLLNode(E data) {
+        this.data = data;
+        this.prev = null;
+        this.next = null;
+    }
 
-	public MyDLLNode<E> getPrev() {
-		return prev;
-	}
+    /**
+     * Returns the data stored in this node.
+     *
+     * @return the data
+     */
+    public E getData() {
+        return data;
+    }
 
-	public void setPrev(MyDLLNode<E> prev) {
-		this.prev = prev;
-	}
+    /**
+     * Sets the data stored in this node.
+     *
+     * @param data the new data to store
+     */
+    public void setData(E data) {
+        this.data = data;
+    }
 
-	public MyDLLNode<E> getNext() {
-		return next;
-	}
+    /**
+     * Returns the previous node in the list.
+     *
+     * @return the previous node
+     */
+    public MyDLLNode<E> getPrev() {
+        return prev;
+    }
 
-	public void setNext(MyDLLNode<E> next) {
-		this.next = next;
-	}
+    /**
+     * Sets the reference to the previous node.
+     *
+     * @param prev the previous node to link to
+     */
+    public void setPrev(MyDLLNode<E> prev) {
+        this.prev = prev;
+    }
+
+    /**
+     * Returns the next node in the list.
+     *
+     * @return the next node
+     */
+    public MyDLLNode<E> getNext() {
+        return next;
+    }
+
+    /**
+     * Sets the reference to the next node.
+     *
+     * @param next the next node to link to
+     */
+    public void setNext(MyDLLNode<E> next) {
+        this.next = next;
+    }
 }

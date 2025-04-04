@@ -42,7 +42,7 @@ public interface ListADT<E> extends Serializable
 	 *                                   implementation does not support having
 	 *                                   <code>null</code> elements.
 	 * @throws IndexOutOfBoundsException If the index is out of range: i.e.
-	 *                                   (<code>index < 0 || index > size()</code>).
+	 * 									 (index &lt; 0 || index &gt; size()).
 	 */
 	public boolean add( int index, E toAdd ) throws NullPointerException, IndexOutOfBoundsException;
 
@@ -84,7 +84,7 @@ public interface ListADT<E> extends Serializable
 	 * @param index Index of element to return.
 	 * @return The element at the specified position in this list.
 	 * @throws IndexOutOfBoundsException If the index is out of range: i.e.
-	 *                                   (<code>index < 0 || index >= size()</code>).
+	 *   (index &lt; 0 || index &gt;= size()).
 	 */
 	public E get( int index ) throws IndexOutOfBoundsException;
 
@@ -96,7 +96,7 @@ public interface ListADT<E> extends Serializable
 	 * @param index The index of the element to remove.
 	 * @return The removed element.
 	 * @throws IndexOutOfBoundsException If the index is out of range: i.e.
-	 *                                   (<code>index < 0 || index >= size()</code>).
+     * (index &lt; 0 || index &gt;= size()).
 	 */
 	public E remove( int index ) throws IndexOutOfBoundsException;
 
@@ -127,7 +127,7 @@ public interface ListADT<E> extends Serializable
 	 *                                   implementation does not support having
 	 *                                   <code>null</code> elements.
 	 * @throws IndexOutOfBoundsException If the index is out of range: i.e.
-	 *                                   (<code>index < 0 || index >= size()</code>).
+     * (index &lt; 0 || index &gt;= size()).
 	 */
 	public E set( int index, E toChange ) throws NullPointerException, IndexOutOfBoundsException;
 
@@ -155,7 +155,7 @@ public interface ListADT<E> extends Serializable
 	 * Returns an array containing all of the elements in this list in proper
 	 * sequence; the runtime type of the returned array is that of the specified
 	 * array. Obeys the general contract of the
-	 * <code>java.util.Collection.toArray(Object [])</code> method.
+	 * java.util.Collection.toArray(Object []) method.
 	 * 
 	 * @param toHold The array into which the elements of this list are to be
 	 *               stored, if it is big enough; otherwise, a new array of the same
@@ -168,7 +168,7 @@ public interface ListADT<E> extends Serializable
 	/**
 	 * Returns an array containing all of the elements in this list in proper
 	 * sequence. Obeys the general contract of the
-	 * <code>java.util.Collection.toArray()</code> method.
+	 * java.util.Collection.toArray() method.
 	 * 
 	 * @return An array containing all of the elements in this list in proper
 	 *         sequence.
@@ -179,7 +179,7 @@ public interface ListADT<E> extends Serializable
 	 * Returns an iterator over the elements in this list, in proper sequence.
 	 * 
 	 * @return An iterator over the elements in this list, in proper sequence. NB:
-	 *         The return is of type <code>linearUtilities.Iterator<E></code>, not
+	 *         The return is of type <code>linearUtilities.Iterator</code>, not
 	 *         <code>java.util.Iterator</code>.
 	 */
 	public Iterator<E> iterator();
