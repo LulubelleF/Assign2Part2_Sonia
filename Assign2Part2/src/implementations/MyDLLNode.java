@@ -1,6 +1,6 @@
-package implementation;
+package implementations;
 
-import implementation.MyDLLNode;
+import implementations.MyDLLNode;
 
 /**
  * A node class used in the doubly linked list implementation (MyDLL).

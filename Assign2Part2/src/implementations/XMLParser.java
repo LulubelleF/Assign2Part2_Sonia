@@ -1,37 +1,47 @@
-package implementation;
+package implementations;
 
 import java.io.*;
-import java.util.regex.*;
 
 public class XMLParser {
+
     public static void main(String[] args) {
+
         if (args.length != 1) {
             System.out.println("Usage: java XMLParser <filename>");
             return;
         }
-
+        
         String filename = args[0];
         MyStack<String> stack = new MyStack<>();
 
-        Pattern tagPattern = Pattern.compile("<(/?[^>]+?)>");
         int lineNumber = 0;
         boolean hasRoot = false;
         boolean rootClosed = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
+
             while ((line = reader.readLine()) != null) {
                 lineNumber++;
-                Matcher matcher = tagPattern.matcher(line);
-                
-                while (matcher.find()) {
-                    String tag = matcher.group(1).trim();
+
+                int idx = 0;
+                while ((idx = line.indexOf("<", idx)) != -1) {
+                    int closeIdx = line.indexOf(">", idx);
+                    if (closeIdx == -1) break;
+
+                    String tag = line.substring(idx + 1, closeIdx).trim();
 
                     // Skip processing instructions and comments
-                    if (tag.startsWith("?") || tag.startsWith("!--")) continue;
+                    if (tag.startsWith("?") || tag.startsWith("!--")) {
+                        idx = closeIdx + 1;
+                        continue;
+                    }
 
                     // Self-closing tag
-                    if (tag.endsWith("/")) continue;
+                    if (tag.endsWith("/")) {
+                        idx = closeIdx + 1;
+                        continue;
+                    }
 
                     // Closing tag
                     if (tag.startsWith("/")) {
@@ -45,20 +55,18 @@ public class XMLParser {
                             }
                         }
                         if (stack.isEmpty()) rootClosed = true;
-                    } 
-                    // Opening tag
-                    else {
+                    } else {
                         if (!hasRoot) hasRoot = true;
                         if (rootClosed) {
                             System.out.println("Line " + lineNumber + ": Content after root tag closed.");
                         }
-                        // Remove attributes (ignore anything after space)
                         String tagName = tag.split("\\s+")[0];
                         stack.push(tagName);
                     }
+
+                    idx = closeIdx + 1;
                 }
             }
-
 
             if (!hasRoot) {
                 System.out.println("Missing root tag");
@@ -69,7 +77,6 @@ public class XMLParser {
             } else {
                 System.out.println("XML document is constructed correctly.");
             }
-
 
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());

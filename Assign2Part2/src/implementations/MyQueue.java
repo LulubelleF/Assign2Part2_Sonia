@@ -1,4 +1,4 @@
-package implementation;
+package implementations;
 
 import exceptions.EmptyQueueException;
 import utilities.QueueADT;

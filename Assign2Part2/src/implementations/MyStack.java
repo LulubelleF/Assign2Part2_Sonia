@@ -1,6 +1,9 @@
-package implementation;
+package implementations;
+
+import exceptions.EmptyQueueException;
+import implementations.MyArrayList;
+
 import java.util.NoSuchElementException;
-import implementation.MyArrayList;
 import java.io.Serializable;
 import utilities.Iterator;
 import utilities.StackADT;
