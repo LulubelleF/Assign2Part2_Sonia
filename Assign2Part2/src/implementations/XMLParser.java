@@ -1,85 +1,89 @@
 package implementations;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class XMLParser {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        if (args.length != 1) {
-            System.out.println("Usage: java XMLParser <filename>");
-            return;
-        }
-        
-        String filename = args[0];
-        MyStack<String> stack = new MyStack<>();
+		if (args.length != 1) {
+			System.out.println("Usage: java XMLParser <filename>");
+			return;
+		}
 
-        int lineNumber = 0;
-        boolean hasRoot = false;
-        boolean rootClosed = false;
+		String filename = args[0];
+		MyStack<String> stack = new MyStack<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
+		int lineNumber = 0;
+		boolean hasRoot = false;
+		boolean rootClosed = false;
 
-            while ((line = reader.readLine()) != null) {
-                lineNumber++;
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line;
 
-                int idx = 0;
-                while ((idx = line.indexOf("<", idx)) != -1) {
-                    int closeIdx = line.indexOf(">", idx);
-                    if (closeIdx == -1) break;
+			while ((line = reader.readLine()) != null) {
+				lineNumber++;
 
-                    String tag = line.substring(idx + 1, closeIdx).trim();
+				int idx = 0;
+				while ((idx = line.indexOf("<", idx)) != -1) {
+					int closeIdx = line.indexOf(">", idx);
+					if (closeIdx == -1) {
+						break;
+					}
 
-                    // Skip processing instructions and comments
-                    if (tag.startsWith("?") || tag.startsWith("!--")) {
-                        idx = closeIdx + 1;
-                        continue;
-                    }
+					String tag = line.substring(idx + 1, closeIdx).trim();
 
-                    // Self-closing tag
-                    if (tag.endsWith("/")) {
-                        idx = closeIdx + 1;
-                        continue;
-                    }
+					// Skip processing instructions and comments
+					// Self-closing tag
+					if (tag.startsWith("?") || tag.startsWith("!--") || tag.endsWith("/")) {
+						idx = closeIdx + 1;
+						continue;
+					}
 
-                    // Closing tag
-                    if (tag.startsWith("/")) {
-                        String tagName = tag.substring(1);
-                        if (stack.isEmpty()) {
-                            System.out.println("Line " + lineNumber + ": Unexpected closing tag </" + tagName + ">");
-                        } else {
-                            String openTag = stack.pop();
-                            if (!openTag.equals(tagName)) {
-                                System.out.println("Line " + lineNumber + ": Mismatched tag </" + tagName + ">, expected </" + openTag + ">");
-                            }
-                        }
-                        if (stack.isEmpty()) rootClosed = true;
-                    } else {
-                        if (!hasRoot) hasRoot = true;
-                        if (rootClosed) {
-                            System.out.println("Line " + lineNumber + ": Content after root tag closed.");
-                        }
-                        String tagName = tag.split("\\s+")[0];
-                        stack.push(tagName);
-                    }
+					// Closing tag
+					if (tag.startsWith("/")) {
+						String tagName = tag.substring(1);
+						if (stack.isEmpty()) {
+							System.out.println("Line " + lineNumber + ": Unexpected closing tag </" + tagName + ">");
+						} else {
+							String openTag = stack.pop();
+							if (!openTag.equals(tagName)) {
+								System.out.println("Line " + lineNumber + ": Mismatched tag </" + tagName
+										+ ">, expected </" + openTag + ">");
+							}
+						}
+						if (stack.isEmpty()) {
+							rootClosed = true;
+						}
+					} else {
+						if (!hasRoot) {
+							hasRoot = true;
+						}
+						if (rootClosed) {
+							System.out.println("Line " + lineNumber + ": Content after root tag closed.");
+						}
+						String tagName = tag.split("\\s+")[0];
+						stack.push(tagName);
+					}
 
-                    idx = closeIdx + 1;
-                }
-            }
+					idx = closeIdx + 1;
+				}
+			}
 
-            if (!hasRoot) {
-                System.out.println("Missing root tag");
-            } else if (!stack.isEmpty()) {
-                while (!stack.isEmpty()) {
-                    System.out.println("Unclosed tag: <" + stack.pop() + ">");
-                }
-            } else {
-                System.out.println("XML document is constructed correctly.");
-            }
+			if (!hasRoot) {
+				System.out.println("Missing root tag");
+			} else if (!stack.isEmpty()) {
+				while (!stack.isEmpty()) {
+					System.out.println("Unclosed tag: <" + stack.pop() + ">");
+				}
+			} else {
+				System.out.println("XML document is constructed correctly.");
+			}
 
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        }
-    }
+		} catch (IOException e) {
+			System.out.println("Error reading file: " + e.getMessage());
+		}
+	}
 }
