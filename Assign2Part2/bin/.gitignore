@@ -1,5 +1,7 @@
-/test/
-/unitTests/
+/.classpath
+/.project
+/.settings/
+/Parser.jar
 /implementations/
-/utilities/
-/exceptions/
+/res/
+/test/
